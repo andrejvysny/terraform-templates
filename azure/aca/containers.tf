@@ -17,6 +17,9 @@ resource "azurerm_container_app" "frontend" {
   }
 
   template {
+
+    min_replicas = 1
+    max_replicas = 5
     container {
       name   = "c-${var.env}-frontend"
       image  = "ghcr.io/andrejvysny/complex-fe:latest"
@@ -64,6 +67,10 @@ resource "azurerm_container_app" "backend" {
   }
 
   template {
+
+       min_replicas = 1
+    max_replicas = 5
+
     container {
       name   = "c-${var.env}-backend"
       image  = "ghcr.io/andrejvysny/complex-be:latest"
@@ -106,6 +113,10 @@ resource "azurerm_container_app" "backend-private" {
   }
 
   template {
+
+       min_replicas = 1
+    max_replicas = 5
+    
     container {
       name   = "c-${var.env}-backend-private"
       image  = "ghcr.io/andrejvysny/complex-be:latest"
