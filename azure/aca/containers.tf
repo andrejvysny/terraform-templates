@@ -6,7 +6,6 @@ resource "azurerm_container_app" "frontend" {
   resource_group_name          = azurerm_resource_group.rg-application.name
   revision_mode                = "Single"
 
-
   ingress {
     target_port      = 80
     external_enabled = true
@@ -24,8 +23,7 @@ resource "azurerm_container_app" "frontend" {
   }
 
   template {
-
-    min_replicas = 1
+    min_replicas = 0
     max_replicas = 5
     container {
       name   = "c-${var.env}-frontend"
@@ -62,7 +60,6 @@ resource "azurerm_container_app" "backend" {
   resource_group_name          = azurerm_resource_group.rg-application.name
   revision_mode                = "Single"
 
-
   ingress {
     target_port                = 8080
     allow_insecure_connections = true
@@ -74,10 +71,8 @@ resource "azurerm_container_app" "backend" {
   }
 
   template {
-
-    min_replicas = 1
+    min_replicas = 0
     max_replicas = 5
-
     container {
       name   = "c-${var.env}-backend"
       image  = "ghcr.io/andrejvysny/complex-be:latest"
@@ -107,7 +102,6 @@ resource "azurerm_container_app" "backend-private" {
   resource_group_name          = azurerm_resource_group.rg-application.name
   revision_mode                = "Single"
 
-
   ingress {
     target_port                = 8080
     transport                  = "auto"
@@ -120,10 +114,8 @@ resource "azurerm_container_app" "backend-private" {
   }
 
   template {
-
-    min_replicas = 1
+    min_replicas = 0
     max_replicas = 5
-
     container {
       name   = "c-${var.env}-backend-private"
       image  = "ghcr.io/andrejvysny/complex-be:latest"

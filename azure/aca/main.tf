@@ -7,20 +7,13 @@ locals {
     owner       = "AndrejVysny"
     paid        = true
   }
-
 }
-
-
-
-
-
 
 resource "azurerm_resource_group" "rg-application" {
   name     = "rg-${local.stack}"
   location = var.region
   tags     = local.default_tags
 }
-
 
 resource "azurerm_container_app_environment" "acaenv" {
   name                       = "acaenv-${local.stack}"
@@ -30,8 +23,6 @@ resource "azurerm_container_app_environment" "acaenv" {
   tags                       = local.default_tags
 }
 
-
-
 resource "azurerm_log_analytics_workspace" "acalogs" {
   name                = "alaw-${local.stack}"
   location            = azurerm_resource_group.rg-application.location
@@ -39,5 +30,3 @@ resource "azurerm_log_analytics_workspace" "acalogs" {
   sku                 = "PerGB2018"
   retention_in_days   = 30
 }
-
-
