@@ -8,8 +8,8 @@ resource "azurerm_container_app" "frontend" {
 
 
   ingress {
-    target_port                = 80
-    external_enabled           = true
+    target_port      = 80
+    external_enabled = true
     traffic_weight {
       percentage      = 100
       latest_revision = true
@@ -68,7 +68,7 @@ resource "azurerm_container_app" "backend" {
 
   template {
 
-       min_replicas = 1
+    min_replicas = 1
     max_replicas = 5
 
     container {
@@ -114,9 +114,9 @@ resource "azurerm_container_app" "backend-private" {
 
   template {
 
-       min_replicas = 1
+    min_replicas = 1
     max_replicas = 5
-    
+
     container {
       name   = "c-${var.env}-backend-private"
       image  = "ghcr.io/andrejvysny/complex-be:latest"
@@ -138,35 +138,31 @@ resource "azurerm_container_app" "backend-private" {
 }
 
 
+################################ PRIVATE IMAGE REPOSITORY ##################################x
 
-/*
-data "azurerm_key_vault" "my_first_app" {
-  name                = "github-registry-access"
-  resource_group_name = azurerm_resource_group.example.name
+data "azurerm_key_vault" "default_key_vault" {
+  name                = "default-key-vault"      # Change to your data
+  resource_group_name = "default-resource-group" # Change to your data
 }
 
-data "azurerm_key_vault_secret" "my_first_app_secret" {
-  name         = "github-access-token"
-  key_vault_id = data.azurerm_key_vault.my_first_app.id
+data "azurerm_key_vault_secret" "github_acces_token_secret" {
+  name         = "github-access-token" # Change to your data
+  key_vault_id = data.azurerm_key_vault.default_key_vault.id
 }
 
 
-resource "azurerm_container_app" "example-private" {
-  name                         = "example-private"
-  container_app_environment_id = azurerm_container_app_environment.example.id
-  resource_group_name          = azurerm_resource_group.example.name
+resource "azurerm_container_app" "private_image_example" {
+  name                         = "private-image-example"
+  container_app_environment_id = azurerm_container_app_environment.acaenv.id
+  resource_group_name          = azurerm_resource_group.rg-application.name
   revision_mode                = "Single"
 
-
   ingress {
-    target_port = 80
-    #transport                  = "auto"
+    target_port                = 80
     allow_insecure_connections = true
     external_enabled           = true
-    //fqdn             = "backend"
     traffic_weight {
-      percentage = 100
-      # revision_suffix = "revision-suffix-example-be-11234"
+      percentage      = 100
       latest_revision = true
     }
   }
@@ -175,28 +171,22 @@ resource "azurerm_container_app" "example-private" {
     server               = "ghcr.io"
     username             = "andrejvysny"
     password_secret_name = "github-access-token"
-
   }
 
   secret {
     name  = "github-access-token"
-    value = data.azurerm_key_vault_secret.my_first_app_secret.value
+    value = data.azurerm_key_vault_secret.github_acces_token_secret.value
   }
 
   template {
     container {
-      name   = "examplecontainerapp-be-private"
+      name   = "c-${var.env}-private-image-example"
       image  = "ghcr.io/andrejvysny/nginx-hello-world-private:latest"
       cpu    = 0.25
       memory = "0.5Gi"
-
     }
   }
 
-  tags = {
-    paid    = true
-    purpose = "testing"
-  }
+  tags = local.default_tags
 }
 
-*/
