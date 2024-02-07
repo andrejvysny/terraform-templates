@@ -7,15 +7,18 @@ output "resource_group_name" {
   description = "Resource group name"
 }
 
+output "frontend_app_name" {
+  value = azurerm_container_app.frontend.name
+}
 
 output "azurerm_container_app_url_frontend" {
-  value = azurerm_container_app.frontend.ingress[0].fqdn
+  value = "https://${azurerm_container_app.frontend.ingress[0].fqdn}"
 }
 
 output "azurerm_container_app_url_backend" {
-  value = azurerm_container_app.backend-private.ingress[0].fqdn
+  value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
 }
 
 output "azurerm_container_app_url_backend_private" {
-  value = azurerm_container_app.backend-private.ingress[0].fqdn
+  value = "https://${azurerm_container_app.backend-private.ingress[0].fqdn}"
 }

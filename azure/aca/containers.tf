@@ -16,6 +16,13 @@ resource "azurerm_container_app" "frontend" {
     }
   }
 
+  # Ignore assigned Custom Domain through Azure Portal
+  lifecycle {
+    ignore_changes = [
+      ingress[0].custom_domain,
+    ]
+  }
+
   template {
 
     min_replicas = 1
@@ -136,10 +143,12 @@ resource "azurerm_container_app" "backend-private" {
     }
   )
 }
-
+/*
 
 ################################ PRIVATE IMAGE REPOSITORY ##################################x
 
+
+# Key vault needs to exist in Azure -> only reading secret
 data "azurerm_key_vault" "default_key_vault" {
   name                = "default-key-vault"      # Change to your data
   resource_group_name = "default-resource-group" # Change to your data
@@ -190,3 +199,4 @@ resource "azurerm_container_app" "private_image_example" {
   tags = local.default_tags
 }
 
+*/
