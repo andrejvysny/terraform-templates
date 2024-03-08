@@ -5,13 +5,11 @@ variable "app" {
   default     = "app"
 }
 
-
 variable "region" {
   type        = string
   description = "Location of the resource group (westeurope, swedencentral)"
   default     = "westeurope"
 }
-
 
 variable "env" {
   type        = string

@@ -9,6 +9,9 @@ locals {
   }
 }
 
+data "azurerm_subscription" "current" {}
+
+
 resource "azurerm_resource_group" "rg-application" {
   name     = "rg-${local.stack}"
   location = var.region
