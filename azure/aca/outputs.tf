@@ -36,17 +36,17 @@ value = "https://${azurerm_container_app.backend-private.ingress[0].fqdn}"
 
 output "SECRET_CLIENT_ID" {
   value = azurerm_user_assigned_identity.uai.client_id
-   sensitive = true
+sensitive = true
 }
 
 output "SECRET_TENANT_ID" {
   value = azurerm_user_assigned_identity.uai.tenant_id
-   sensitive = true
+sensitive = true
 }
 
 output "SECRET_SUBSCRIPTION_ID" {
   value = data.azurerm_subscription.current.subscription_id
-   sensitive = true
+sensitive = true
 }
 
 #################### SECRETS ####################

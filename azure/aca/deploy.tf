@@ -3,7 +3,7 @@
 variable "github-user" {
   type        = string
   description = "github user"
-}
+  }
 
 
 resource "azurerm_user_assigned_identity" "uai" {
