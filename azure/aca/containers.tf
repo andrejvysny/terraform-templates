@@ -32,11 +32,11 @@ resource "azurerm_container_app" "frontend" {
       memory = "0.5Gi"
       env {
         name  = "BACKEND_HOST"
-        value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
+        value = "https://${azurerm_container_app.backend.latest_revision_fqdn}"
       }
       env {
         name  = "PRIVATE_BACKEND_HOST"
-        value = "https://${azurerm_container_app.backend-private.ingress[0].fqdn}"
+        value = "https://${azurerm_container_app.backend-private.latest_revision_fqdn}"
       }
       env {
         name  = "TEST_ENV"
@@ -44,7 +44,10 @@ resource "azurerm_container_app" "frontend" {
       }
     }
   }
-
+  identity {
+    type = "SystemAssigned"
+  }
+  depends_on = [azurerm_container_app.backend, azurerm_container_app.backend-private]
   tags = merge(
     local.default_tags,
     {
@@ -82,8 +85,17 @@ resource "azurerm_container_app" "backend" {
         name  = "MESSAGE"
         value = "Public BACKEND - ENV message"
       }
+      env {
+        name  = "FRONTEND_HOST"
+        value = "https://${azurerm_container_app.frontend.latest_revision_fqdn}"
+      }
     }
   }
+
+  identity {
+    type = "SystemAssigned"
+  }
+  depends_on = [azurerm_container_app.frontend]
 
   tags = merge(
     local.default_tags,
