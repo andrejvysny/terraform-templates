@@ -85,17 +85,13 @@ resource "azurerm_container_app" "backend" {
         name  = "MESSAGE"
         value = "Public BACKEND - ENV message"
       }
-      env {
-        name  = "FRONTEND_HOST"
-        value = "https://${azurerm_container_app.frontend.latest_revision_fqdn}"
-      }
     }
   }
 
   identity {
     type = "SystemAssigned"
   }
-  depends_on = [azurerm_container_app.frontend]
+
 
   tags = merge(
     local.default_tags,
